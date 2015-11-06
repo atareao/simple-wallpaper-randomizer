@@ -1,0 +1,30 @@
+simple-wallpaper-randomizer (0.2.0-0extras15.10.2) vivid; urgency=medium
+
+  * Improved change wallpaper on boot
+
+ -- Lorenzo Carbonell <lorenzo.carbonell.cerezo@gmail.com>  Fri, 06 Nov 2015 18:27:00 +0100
+
+simple-wallpaper-randomizer (0.2.0-0extras15.10.1) wily; urgency=medium
+
+  * Fixed a bug with boot
+
+ -- Lorenzo Carbonell <lorenzo.carbonell.cerezo@gmail.com>  Fri, 06 Nov 2015 07:05:06 +0100
+
+simple-wallpaper-randomizer (0.2.0-0extras15.10.0) wily; urgency=medium
+
+  * Now can install new wallpapers from app
+
+ -- Lorenzo Carbonell <lorenzo.carbonell.cerezo@gmail.com>  Sun, 01 Nov 2015 13:47:27 +0100
+
+simple-wallpaper-randomizer (0.1.0-0extras15.04.0) wily; urgency=medium
+
+  * Random image among not showed images
+  * Change background on boot
+
+ -- Lorenzo Carbonell <lorenzo.carbonell.cerezo@gmail.com>  Sat, 31 Oct 2015 19:57:03 +0100
+
+simple-wallpaper-randomizer (0.0.1-0extras15.04.4) vivid; urgency=medium
+
+  * Initial release.
+
+ -- Lorenzo Carbonell <lorenzo.carbonell.cerezo@gmail.com>  Thu, 22 Oct 2015 07:37:34 +0200
