@@ -20,18 +20,41 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
+import gi
+try:
+    gi.require_version('Gtk', '3.0')
+except Exception as e:
+    print(e)
+    exit(-1)
+from gi.repository import Gtk
+from gi.repository import Gio
 from crontab import CronTab
-from gi.repository import Gtk, Gio
-import os
 import shutil
+import os
 from os import listdir
 from os.path import isfile, join
 from urllib.parse import unquote_plus, unquote
-from comun import _
-from configurator import Configuration
 import random
 import getpass
-import comun
+import sys
+sys.path.append(
+    os.path.normpath(
+        os.path.join(
+            os.path.dirname(
+                os.path.realpath(os.path.join(os.getcwd(),
+                                 os.path.expanduser(__file__)))),
+            '..')))
+try:
+    from configurator import Configuration
+    from comun import _
+    from comun import APPNAME
+    from comun import ICON
+    from comun import AUTOSTART
+    from comun import AUTOSTART_FILE
+    from comun import IMAGE_EXTENSIONS
+except Exception as e:
+    print(e)
+    exit(-1)
 
 
 class SimpleWallpaperRandomizerDialog(Gtk.Dialog):
@@ -47,8 +70,8 @@ class SimpleWallpaperRandomizerDialog(Gtk.Dialog):
              Gtk.STOCK_CANCEL,
              Gtk.ResponseType.CANCEL))
         self.set_position(Gtk.WindowPosition.CENTER_ALWAYS)
-        self.set_title(comun.APPNAME)
-        self.set_icon_from_file(comun.ICON)
+        self.set_title(APPNAME)
+        self.set_icon_from_file(ICON)
         self.set_default_size(350, 250)
         #
         vbox = Gtk.VBox(spacing=5)
@@ -257,7 +280,7 @@ class SimpleWallpaperRandomizerDialog(Gtk.Dialog):
         print(minutes, hours, days)
         filestart = os.path.join(os.getenv("HOME"),
                                  ".config/autostart/",
-                                 comun.AUTOSTART_FILE)
+                                 AUTOSTART_FILE)
         self.switch31.set_active(os.path.exists(filestart))
 
     def force_change_wallpaper(self):
@@ -272,8 +295,7 @@ class SimpleWallpaperRandomizerDialog(Gtk.Dialog):
         thejob = self.get_the_job()
         if self.switch11.get_active():
             if thejob is None:
-                thejob = self.cron.new(command='export DISPLAY=:0.0 \
-&& /usr/bin/python3 /opt/extras.ubuntu.com/simple-wallpaper-randomizer/\
+                thejob = self.cron.new(command='DISPLAY=:0.0 /usr/bin/python3 /opt/extras.ubuntu.com/simple-wallpaper-randomizer/\
 bin/change_wallpaper.py',
                                        user=getpass.getuser())
                 thejob.minute.every(10)
@@ -288,11 +310,11 @@ bin/change_wallpaper.py',
                 self.cron.remove(thejob)
         filestart = os.path.join(os.getenv("HOME"),
                                  ".config/autostart/",
-                                 comun.AUTOSTART_FILE)
+                                 AUTOSTART_FILE)
         if self.switch31.get_active():
             if not os.path.exists(os.path.dirname(filestart)):
                 os.makedirs(os.path.dirname(filestart))
-            shutil.copyfile(comun.AUTOSTART, filestart)
+            shutil.copyfile(AUTOSTART, filestart)
         else:
             if os.path.exists(filestart):
                 os.remove(filestart)
@@ -303,7 +325,7 @@ bin/change_wallpaper.py',
 def is_image(afile):
     if isfile(afile):
         fileName, fileExtension = os.path.splitext(unquote(afile))
-        if fileExtension.lower() in comun.IMAGE_EXTENSIONS:
+        if fileExtension.lower() in IMAGE_EXTENSIONS:
             return True
     return False
 

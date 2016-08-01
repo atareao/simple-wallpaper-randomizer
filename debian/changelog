@@ -1,8 +1,8 @@
-simple-wallpaper-randomizer (0.3.0-0extras16.04.0) xenial; urgency=medium
+simple-wallpaper-randomizer (0.3.0-0extras16.04.2) xenial; urgency=medium
 
   * Added utils to get desktop and set wallpaper
 
- -- Lorenzo Carbonell <lorenzo.carbonell.cerezo@gmail.com>  Sun, 31 Jul 2016 07:33:58 +0200
+ -- Lorenzo Carbonell <lorenzo.carbonell.cerezo@gmail.com>  Mon, 01 Aug 2016 20:13:49 +0200
 
 simple-wallpaper-randomizer (0.2.0-0extras15.10.2) vivid; urgency=medium
 

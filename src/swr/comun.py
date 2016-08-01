@@ -49,12 +49,12 @@ if is_package():
     AUTOSTART = os.path.join(APPDIR, AUTOSTART_FILE)
 else:
     ROOTDIR = os.path.dirname(__file__)
-    LANGDIR = os.path.normpath(os.path.join(ROOTDIR, '../template1'))
+    LANGDIR = os.path.normpath(os.path.join(ROOTDIR, '../../template1'))
     APPDIR = ROOTDIR
-    DATADIR = os.path.normpath(os.path.join(ROOTDIR, '../data'))
-    ICONDIR = os.path.normpath(os.path.join(ROOTDIR, '../data/icons'))
-    SOCIALDIR = os.path.normpath(os.path.join(ROOTDIR, '../data/social'))
-    DEBIANDIR = os.path.normpath(os.path.join(ROOTDIR, '../debian'))
+    DATADIR = os.path.normpath(os.path.join(ROOTDIR, '../../data'))
+    ICONDIR = os.path.normpath(os.path.join(ROOTDIR, '../../data/icons'))
+    SOCIALDIR = os.path.normpath(os.path.join(ROOTDIR, '../../data/social'))
+    DEBIANDIR = os.path.normpath(os.path.join(ROOTDIR, '../../debian'))
     CHANGELOG = os.path.join(DEBIANDIR, 'changelog')
     AUTOSTART = os.path.join(DATADIR, AUTOSTART_FILE)
 

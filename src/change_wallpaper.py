@@ -26,22 +26,31 @@ import subprocess
 import datetime
 import time
 from gi.repository import Gio
-from utils import set_background
 
-if __file__.startswith(
-        '/opt/extras.ubuntu.com/simple-wallpaper-randomizer') or\
-    os.getcwd().startswith(
-        '/opt/extras.ubuntu.com/simple-wallpaper-randomizer'):
-    sys.path.insert(
-        1,
-        '/opt/extras.ubuntu.com/simple-wallpaper-randomizer/\
-share/simple-wallpaper-randomizer')
-else:
-    sys.path.insert(1, os.path.normpath(os.path.join(os.getcwd(), '../src')))
+try:
+    if __file__.startswith(
+            '/opt/extras.ubuntu.com/simple-wallpaper-randomizer') or\
+        os.getcwd().startswith(
+            '/opt/extras.ubuntu.com/simple-wallpaper-randomizer'):
+        sys.path.insert(
+            1,
+            '/opt/extras.ubuntu.com/simple-wallpaper-randomizer/\
+    share/simple-wallpaper-randomizer')
+    else:
+        PACKAGE_PARENT = '..'
+        SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
+        sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
+        print(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
+        '''
+        sys.path.insert(1,
+                        os.path.normpath(os.path.join(os.getcwd(), '../src')))
+        '''
+except Exception as e:
+    print(e)
 
-from simplewallpaperrandomizer import get_not_displayed_files,\
+from swr.simplewallpaperrandomizer import get_not_displayed_files,\
                                       add_file_to_displayed_files
-
+from swr.utils import set_background
 if __name__ == '__main__':
     print(len(sys.argv))
     if len(sys.argv) > 1 and sys.argv[1] == 'boot':
