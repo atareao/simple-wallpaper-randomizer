@@ -45,13 +45,13 @@ sys.path.append(
                                  os.path.expanduser(__file__)))),
             '..')))
 try:
-    from configurator import Configuration
-    from comun import _
-    from comun import APPNAME
-    from comun import ICON
-    from comun import AUTOSTART
-    from comun import AUTOSTART_FILE
-    from comun import IMAGE_EXTENSIONS
+    from swr.configurator import Configuration
+    from swr.comun import _
+    from swr.comun import APPNAME
+    from swr.comun import ICON
+    from swr.comun import AUTOSTART
+    from swr.comun import AUTOSTART_FILE
+    from swr.comun import IMAGE_EXTENSIONS
 except Exception as e:
     print(e)
     exit(-1)
@@ -336,21 +336,21 @@ def get_all_files():
             is_image(join(mypath, f))]
 
 
-def get_not_displayed_files():
+def get_not_displayed_files(config_file=None):
     all_files = get_all_files()
-    displayed_files = get_displayed_files()
+    displayed_files = get_displayed_files(config_file)
     for displayed_file in get_displayed_files():
         if displayed_file in all_files:
             all_files.remove(displayed_file)
     return all_files
 
 
-def get_displayed_files():
-    configuration = Configuration()
+def get_displayed_files(config_file=None):
+    configuration = Configuration(config_file)
     displayed_files = configuration.get('displayed_files')
     all_files = get_all_files()
     print('%s / %s' % (len(displayed_files), len(all_files)))
-    if len(displayed_files) == len(all_files):
+    if len(displayed_files) >= len(all_files):
         displayed_files = []
         configuration.set('displayed_files', displayed_files)
         configuration.save()
@@ -367,6 +367,9 @@ def add_file_to_displayed_files(afile):
 
 
 if __name__ == '__main__':
+    print(get_not_displayed_files())
+    '''
     swrd = SimpleWallpaperRandomizerDialog()
     if swrd.run() == Gtk.ResponseType.ACCEPT:
         swrd.save_preferences()
+    '''

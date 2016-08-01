@@ -33,15 +33,18 @@ sys.path.append(
 try:
     from swr.comun import PARAMS
     from swr.comun import CONFIG_FILE
-    from swr.comun import CONFIG_APP_DIR
 except Exception as e:
     print(e)
     exit(-1)
 
 
 class Configuration(object):
-    def __init__(self):
+    def __init__(self, config_file=None):
         self.params = PARAMS
+        if config_file is None:
+            self.config_file = CONFIG_FILE
+        else:
+            self.config_file = config_file
         self.read()
 
     def get(self, key):
@@ -56,8 +59,8 @@ class Configuration(object):
         self.params[key] = value
 
     def reset(self):
-        if os.path.exists(CONFIG_FILE):
-            os.remove(CONFIG_FILE)
+        if os.path.exists(self.config_file):
+            os.remove(self.config_file)
         self.params = PARAMS
         self.save()
 
@@ -67,11 +70,11 @@ class Configuration(object):
 
     def read(self):
         try:
-            f = codecs.open(CONFIG_FILE, 'r', 'utf-8')
+            f = codecs.open(self.config_file, 'r', 'utf-8')
         except IOError as e:
             print(e)
             self.save()
-            f = codecs.open(CONFIG_FILE, 'r', 'utf-8')
+            f = codecs.open(self.config_file, 'r', 'utf-8')
         try:
             self.params = json.loads(f.read())
         except ValueError as e:
@@ -80,8 +83,8 @@ class Configuration(object):
         f.close()
 
     def save(self):
-        if not os.path.exists(CONFIG_APP_DIR):
-            os.makedirs(CONFIG_APP_DIR)
+        if not os.path.exists(os.path.dirname(self.config_file)):
+            os.makedirs(os.path.dirname(self.config_file))
         f = codecs.open(CONFIG_FILE, 'w', 'utf-8')
         f.write(json.dumps(self.params))
         f.close()

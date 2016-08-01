@@ -2,7 +2,7 @@
 Name = Simple Wallpaper Randomizer
 GenericName = Simple Wallpaper Randomizer
 Comment = A simple application to change wallpaper randomly
-Exec = /opt/extras.ubuntu.com/simple-wallpaper-randomizer/share/simple-wallpaper-randomizer/simplewallpaperrandomizer.py
+Exec = /opt/extras.ubuntu.com/simple-wallpaper-randomizer/share/simple-wallpaper-randomizer/swr/simplewallpaperrandomizer.py
 Icon = /opt/extras.ubuntu.com/simple-wallpaper-randomizer/share/icons/swr-icon.png
 Type = Application
 Terminal = false

@@ -35,7 +35,7 @@ APP_CONF = APP + '.conf'
 CONFIG_DIR = os.path.join(os.path.expanduser('~'), '.config')
 CONFIG_APP_DIR = os.path.join(CONFIG_DIR, APP)
 CONFIG_FILE = os.path.join(CONFIG_APP_DIR, APP_CONF)
-print(CONFIG_FILE)
+print(CONFIG_FILE, os.path.dirname(CONFIG_FILE))
 PARAMS = {'displayed_files': []}
 IMAGE_EXTENSIONS = ['.jpg', '.jpeg', '.png']
 

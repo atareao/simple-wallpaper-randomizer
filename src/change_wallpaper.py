@@ -35,26 +35,34 @@ try:
         sys.path.insert(
             1,
             '/opt/extras.ubuntu.com/simple-wallpaper-randomizer/\
-    share/simple-wallpaper-randomizer')
+share/simple-wallpaper-randomizer')
     else:
-        PACKAGE_PARENT = '..'
-        SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
-        sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
-        print(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
-        '''
         sys.path.insert(1,
                         os.path.normpath(os.path.join(os.getcwd(), '../src')))
-        '''
 except Exception as e:
     print(e)
-
+'''
+sys.path.insert(
+    1,
+    '/opt/extras.ubuntu.com/simple-wallpaper-randomizer/\
+share/simple-wallpaper-randomizer')
+'''
 from swr.simplewallpaperrandomizer import get_not_displayed_files,\
                                       add_file_to_displayed_files
 from swr.utils import set_background
+
+
 if __name__ == '__main__':
     print(len(sys.argv))
     if len(sys.argv) > 1 and sys.argv[1] == 'boot':
         time.sleep(5)
-    wallpaper = random.choice(get_not_displayed_files())
+    if len(sys.argv) > 2:
+        config_file = sys.argv[2]
+    else:
+        config_file = None
+    print(config_file)
+    files = get_not_displayed_files(config_file)
+    print(files)
+    wallpaper = random.choice(files)
     set_background(wallpaper)
     add_file_to_displayed_files(wallpaper)
