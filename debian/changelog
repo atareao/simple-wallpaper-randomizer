@@ -1,20 +1,14 @@
-simple-wallpaper-randomizer (0.3.0-0extras16.04.4) xenial; urgency=medium
+simple-wallpaper-randomizer (0.4.0-0extras16.04.2) xenial; urgency=medium
 
-  * Added utils to get desktop and set wallpaper
+  * Using Gio to set wallpaper
 
- -- Lorenzo Carbonell <lorenzo.carbonell.cerezo@gmail.com>  Mon, 01 Aug 2016 22:09:39 +0200
+ -- Lorenzo Carbonell <lorenzo.carbonell.cerezo@gmail.com>  Sat, 01 Apr 2017 12:59:28 +0200
 
-simple-wallpaper-randomizer (0.2.0-0extras15.10.2) vivid; urgency=medium
+simple-wallpaper-randomizer (0.3.0-0extras16.04.0) xenial; urgency=medium
 
-  * Improved change wallpaper on boot
+  * Updated to xenial
 
- -- Lorenzo Carbonell <lorenzo.carbonell.cerezo@gmail.com>  Fri, 06 Nov 2015 18:27:00 +0100
-
-simple-wallpaper-randomizer (0.2.0-0extras15.10.1) wily; urgency=medium
-
-  * Fixed a bug with boot
-
- -- Lorenzo Carbonell <lorenzo.carbonell.cerezo@gmail.com>  Fri, 06 Nov 2015 07:05:06 +0100
+ -- Lorenzo Carbonell <lorenzo.carbonell.cerezo@gmail.com>  Fri, 31 Mar 2017 08:10:14 +0200
 
 simple-wallpaper-randomizer (0.2.0-0extras15.10.0) wily; urgency=medium
 

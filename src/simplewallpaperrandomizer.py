@@ -3,7 +3,7 @@
 #
 # This file is part of Simple Wallpaper Randomizer
 #
-# Copyright (C) 2016 Lorenzo Carbonell
+# Copyright (C) 2012-2017 Lorenzo Carbonell
 # lorenzo.carbonell.cerezo@gmail.com
 #
 # This program is free software: you can redistribute it and/or modify
@@ -20,66 +20,47 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
+from crontab import CronTab
 import gi
 try:
     gi.require_version('Gtk', '3.0')
 except Exception as e:
     print(e)
     exit(-1)
-from gi.repository import Gtk
-from gi.repository import Gio
-from crontab import CronTab
-import shutil
+from gi.repository import Gtk, Gio
 import os
 from os import listdir
 from os.path import isfile, join
-from urllib.parse import unquote_plus, unquote
+from urllib.parse import unquote_plus
+from comun import _
+from configurator import Configuration
 import random
 import getpass
-import sys
-sys.path.append(
-    os.path.normpath(
-        os.path.join(
-            os.path.dirname(
-                os.path.realpath(os.path.join(os.getcwd(),
-                                 os.path.expanduser(__file__)))),
-            '..')))
-try:
-    from swr.configurator import Configuration
-    from swr.comun import _
-    from swr.comun import APPNAME
-    from swr.comun import ICON
-    from swr.comun import AUTOSTART
-    from swr.comun import AUTOSTART_FILE
-    from swr.comun import IMAGE_EXTENSIONS
-except Exception as e:
-    print(e)
-    exit(-1)
+import comun
 
 
 class SimpleWallpaperRandomizerDialog(Gtk.Dialog):
     def __init__(self):
         self.cron = CronTab(user=True)
-        Gtk.Dialog.__init__(
-            self,
-            _('Simple Wallpaper Randomizer'),
-            None,
-            Gtk.DialogFlags.MODAL | Gtk.DialogFlags.DESTROY_WITH_PARENT,
-            (Gtk.STOCK_OK,
-             Gtk.ResponseType.ACCEPT,
-             Gtk.STOCK_CANCEL,
-             Gtk.ResponseType.CANCEL))
+        # self.cron = CronTab()
+        Gtk.Dialog.__init__(self,
+                            _('Simple Wallpaper Randomizer'),
+                            None,
+                            Gtk.DialogFlags.MODAL |
+                            Gtk.DialogFlags.DESTROY_WITH_PARENT,
+                            (Gtk.STOCK_OK, Gtk.ResponseType.ACCEPT,
+                             Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL))
         self.set_position(Gtk.WindowPosition.CENTER_ALWAYS)
-        self.set_title(APPNAME)
-        self.set_icon_from_file(ICON)
+        self.set_title(comun.APPNAME)
+        self.set_icon_from_file(comun.ICON)
         self.set_default_size(350, 250)
-        #
+
         vbox = Gtk.VBox(spacing=5)
         self.get_content_area().add(vbox)
-        #
+
         notebook = Gtk.Notebook.new()
         vbox.pack_start(notebook, True, True, 0)
-        #
+
         vbox0 = Gtk.VBox(spacing=5)
         notebook.append_page_menu(vbox0, Gtk.Label(_('Preferences')))
         frame0 = Gtk.Frame()
@@ -111,7 +92,7 @@ class SimpleWallpaperRandomizerDialog(Gtk.Dialog):
         table2.set_row_spacings(5)
         frame2.add(table2)
         #
-        label11 = Gtk.Label(_('Switch on time?')+':')
+        label11 = Gtk.Label(_('Switch on time?') + ':')
         label11.set_alignment(0, .5)
         table2.attach(label11, 0, 1, 0, 1,
                       xoptions=Gtk.AttachOptions.FILL,
@@ -120,7 +101,7 @@ class SimpleWallpaperRandomizerDialog(Gtk.Dialog):
         table2.attach(self.switch11, 1, 2, 0, 1,
                       xoptions=Gtk.AttachOptions.FILL,
                       yoptions=Gtk.AttachOptions.SHRINK)
-        label21 = Gtk.Label(_('Minutes between changes')+':')
+        label21 = Gtk.Label(_('Minutes between changes') + ':')
         label21.set_alignment(0, .5)
         table2.attach(label21, 0, 1, 1, 2,
                       xoptions=Gtk.AttachOptions.FILL,
@@ -131,7 +112,7 @@ class SimpleWallpaperRandomizerDialog(Gtk.Dialog):
         table2.attach(self.spinbutton21, 1, 2, 1, 2,
                       xoptions=Gtk.AttachOptions.FILL,
                       yoptions=Gtk.AttachOptions.SHRINK)
-        label22 = Gtk.Label(_('Hours between changes')+':')
+        label22 = Gtk.Label(_('Hours between changes') + ':')
         label22.set_alignment(0, .5)
         table2.attach(label22, 0, 1, 2, 3,
                       xoptions=Gtk.AttachOptions.FILL,
@@ -142,7 +123,7 @@ class SimpleWallpaperRandomizerDialog(Gtk.Dialog):
         table2.attach(self.spinbutton22, 1, 2, 2, 3,
                       xoptions=Gtk.AttachOptions.FILL,
                       yoptions=Gtk.AttachOptions.SHRINK)
-        label23 = Gtk.Label(_('Days between changes')+':')
+        label23 = Gtk.Label(_('Days between changes') + ':')
         label23.set_alignment(0, .5)
         table2.attach(label23, 0, 1, 3, 4,
                       xoptions=Gtk.AttachOptions.FILL,
@@ -164,7 +145,7 @@ class SimpleWallpaperRandomizerDialog(Gtk.Dialog):
         frame3.add(table3)
         #
         #
-        label31 = Gtk.Label(_('Switch on boot?')+':')
+        label31 = Gtk.Label(_('Switch on boot?') + ':')
         label31.set_alignment(0, .5)
         table3.attach(label31, 0, 1, 0, 1,
                       xoptions=Gtk.AttachOptions.FILL,
@@ -187,38 +168,36 @@ class SimpleWallpaperRandomizerDialog(Gtk.Dialog):
         vbox6 = Gtk.VBox(spacing=5)
         frame5.add(vbox6)
         button1 = Gtk.Button('chrome-os-wallpapers')
-        button1.connect('clicked',
-                        self.on_button_clicked,
+        button1.connect('clicked', self.on_button_clicked,
                         'chrome-os-wallpapers')
         vbox2.pack_start(button1, True, True, 0)
-        button2 = Gtk.Button('chrome-os-wallpapers-2015')
-        button2.connect('clicked',
-                        self.on_button_clicked,
+        button2 = Gtk.Button(' chrome-os-wallpapers-2015')
+        button2.connect('clicked', self.on_button_clicked,
                         'chrome-os-wallpapers-2015')
         vbox2.pack_start(button2, True, True, 0)
         button3 = Gtk.Button('saucy-salamander-wallpaper-contest')
-        button3.connect('clicked',
-                        self.on_button_clicked,
+        button3.connect('clicked', self.on_button_clicked,
                         'saucy-salamander-wallpaper-contest')
         vbox2.pack_start(button3, True, True, 0)
         button4 = Gtk.Button('trusty-tahr-wallpaper-contest')
-        button4.connect('clicked',
-                        self.on_button_clicked,
+        button4.connect('clicked', self.on_button_clicked,
                         'trusty-tahr-wallpaper-contest')
         vbox2.pack_start(button4, True, True, 0)
         button5 = Gtk.Button('vivid-vervet-wallpaper-contest')
-        button5.connect('clicked',
-                        self.on_button_clicked,
+        button5.connect('clicked', self.on_button_clicked,
                         'vivid-vervet-wallpaper-contest')
         vbox2.pack_start(button5, True, True, 0)
         button6 = Gtk.Button('wily-werewolf-wallpaper-contest')
-        button6.connect('clicked',
-                        self.on_button_clicked,
+        button6.connect('clicked', self.on_button_clicked,
                         'wily-werewolf-wallpaper-contest')
         vbox2.pack_start(button6, True, True, 0)
-        # Init
+
+        configuration = Configuration()
+        configuration.set('desktop_environment',
+                          comun.get_desktop_environment())
+        configuration.save()
         self.load_preferences()
-        #
+
         self.show_all()
 
     def on_button_clicked(self, widget, wallpaper_set):
@@ -227,6 +206,22 @@ class SimpleWallpaperRandomizerDialog(Gtk.Dialog):
     def on_button1_clicked(self, widget):
         print('clicked')
         self.force_change_wallpaper()
+
+    def get_the_job_on_reboot(self):
+        iter = self.cron.find_comment('cron_change_wallpaper_on_reboot')
+        jobs = list(iter)
+        noj = len(jobs)
+        print('Number of jobs: %s' % noj)
+        if noj == 0:
+            return None
+        else:
+            for index, ajob in enumerate(jobs):
+                if index == 0:
+                    thejob = ajob
+                else:
+                    self.cron.remove(ajob)
+                    self.cron.write()
+        return thejob
 
     def get_the_job(self):
         iter = self.cron.find_comment('cron_change_wallpaper')
@@ -267,21 +262,21 @@ class SimpleWallpaperRandomizerDialog(Gtk.Dialog):
             else:
                 minutes = 1
             if hours != '*' and hours.find('/'):
-                hours = int(hours.split('/')[-1])-1
+                hours = int(hours.split('/')[-1]) - 1
             else:
                 hours = 0
             if days != '*' and days.find('/'):
-                days = int(days.split('/')[-1])-1
+                days = int(days.split('/')[-1]) - 1
             else:
                 days = 0
         self.spinbutton21.set_value(minutes)
         self.spinbutton22.set_value(hours)
         self.spinbutton23.set_value(days)
         print(minutes, hours, days)
-        filestart = os.path.join(os.getenv("HOME"),
-                                 ".config/autostart/",
-                                 AUTOSTART_FILE)
-        self.switch31.set_active(os.path.exists(filestart))
+        if self.get_the_job_on_reboot() is None:
+            self.switch31.set_active(False)
+        else:
+            self.switch31.set_active(True)
 
     def force_change_wallpaper(self):
         wallpaper = random.choice(get_not_displayed_files())
@@ -295,62 +290,60 @@ class SimpleWallpaperRandomizerDialog(Gtk.Dialog):
         thejob = self.get_the_job()
         if self.switch11.get_active():
             if thejob is None:
-                thejob = self.cron.new(command='DISPLAY=:0.0 /usr/bin/python3 /opt/extras.ubuntu.com/simple-wallpaper-randomizer/\
-bin/change_wallpaper.py',
-                                       user=getpass.getuser())
+                thejob = self.cron.new(command='export DISPLAY=:0.0 && \
+/usr/bin/python3 /opt/extras.ubuntu.com/simple-wallpaper-randomizer/bin/\
+change_wallpaper.py', user=getpass.getuser())
                 thejob.minute.every(10)
                 thejob.set_comment("cron_change_wallpaper")
                 thejob.enable()
             thejob.enable(self.switch11.get_active())
             thejob.minute.every(self.spinbutton21.get_value())
-            thejob.hour.every(self.spinbutton22.get_value()+1)
-            thejob.day.every(self.spinbutton23.get_value()+1)
+            thejob.hour.every(self.spinbutton22.get_value() + 1)
+            thejob.day.every(self.spinbutton23.get_value() + 1)
         else:
             if thejob is not None:
                 self.cron.remove(thejob)
-        filestart = os.path.join(os.getenv("HOME"),
-                                 ".config/autostart/",
-                                 AUTOSTART_FILE)
         if self.switch31.get_active():
-            if not os.path.exists(os.path.dirname(filestart)):
-                os.makedirs(os.path.dirname(filestart))
-            shutil.copyfile(AUTOSTART, filestart)
+            thejob_on_reboot = self.cron.new(command='export DISPLAY=:0.0 && \
+/usr/bin/python3 /opt/extras.ubuntu.com/simple-wallpaper-randomizer/bin/\
+change_wallpaper.py', user=getpass.getuser())
+            thejob_on_reboot.set_comment("cron_change_wallpaper_on_reboot")
+            thejob_on_reboot.every_reboot()
         else:
-            if os.path.exists(filestart):
-                os.remove(filestart)
+            thejob_on_reboot = self.get_the_job_on_reboot()
+            if thejob_on_reboot is not None:
+                self.cron.remove(thejob_on_reboot)
         self.cron.write()
-        print(thejob)
+        print(thejob, thejob_on_reboot)
 
 
 def is_image(afile):
     if isfile(afile):
-        fileName, fileExtension = os.path.splitext(unquote(afile))
-        if fileExtension.lower() in IMAGE_EXTENSIONS:
+        fileName, fileExtension = os.path.splitext(unquote_plus(afile))
+        if fileExtension.lower() in comun.IMAGE_EXTENSIONS:
             return True
     return False
 
 
 def get_all_files():
     mypath = '/usr/share/backgrounds'
-    return [unquote(join(mypath, f)) for f in listdir(mypath) if
-            is_image(join(mypath, f))]
+    return [unquote_plus(join(mypath, f)) for f in listdir(mypath)
+            if is_image(join(mypath, f))]
 
 
-def get_not_displayed_files(config_file=None):
+def get_not_displayed_files():
     all_files = get_all_files()
-    displayed_files = get_displayed_files(config_file)
     for displayed_file in get_displayed_files():
-        if displayed_file in all_files:
-            all_files.remove(displayed_file)
+        all_files.remove(displayed_file)
     return all_files
 
 
-def get_displayed_files(config_file=None):
-    configuration = Configuration(config_file)
+def get_displayed_files():
+    configuration = Configuration()
     displayed_files = configuration.get('displayed_files')
     all_files = get_all_files()
     print('%s / %s' % (len(displayed_files), len(all_files)))
-    if len(displayed_files) >= len(all_files):
+    if len(displayed_files) == len(all_files):  # all files were showed
         displayed_files = []
         configuration.set('displayed_files', displayed_files)
         configuration.save()
@@ -367,9 +360,8 @@ def add_file_to_displayed_files(afile):
 
 
 if __name__ == '__main__':
-    print(get_not_displayed_files())
-    '''
     swrd = SimpleWallpaperRandomizerDialog()
     if swrd.run() == Gtk.ResponseType.ACCEPT:
         swrd.save_preferences()
-    '''
+    swrd.destroy()
+    exit(0)

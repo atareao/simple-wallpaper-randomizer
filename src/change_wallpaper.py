@@ -3,7 +3,7 @@
 #
 # This file is part of Simple Wallpaper Randomizer
 #
-# Copyright (C) 2016 Lorenzo Carbonell
+# Copyright (C) 2012-2017 Lorenzo Carbonell
 # lorenzo.carbonell.cerezo@gmail.com
 #
 # This program is free software: you can redistribute it and/or modify
@@ -19,50 +19,43 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+
 import random
-import os
 import sys
 import subprocess
-import datetime
-import time
+import os
 from gi.repository import Gio
-
 try:
-    if __file__.startswith(
-            '/opt/extras.ubuntu.com/simple-wallpaper-randomizer') or\
-        os.getcwd().startswith(
-            '/opt/extras.ubuntu.com/simple-wallpaper-randomizer'):
-        sys.path.insert(
-            1,
-            '/opt/extras.ubuntu.com/simple-wallpaper-randomizer/\
-share/simple-wallpaper-randomizer')
-    else:
-        sys.path.insert(1,
-                        os.path.normpath(os.path.join(os.getcwd(), '../src')))
+    from simplewallpaperrandomizer import get_not_displayed_files
+    from simplewallpaperrandomizer import add_file_to_displayed_files
+    from configurator import Configuration
 except Exception as e:
     print(e)
-'''
-sys.path.insert(
-    1,
-    '/opt/extras.ubuntu.com/simple-wallpaper-randomizer/\
-share/simple-wallpaper-randomizer')
-'''
-from swr.simplewallpaperrandomizer import get_not_displayed_files,\
-                                      add_file_to_displayed_files
-from swr.utils import set_background
+    sys.path.insert(
+        1, '/opt/extras.ubuntu.com/simple-wallpaper-randomizer/share/\
+simple-wallpaper-randomizer')
+    from simplewallpaperrandomizer import get_not_displayed_files
+    from simplewallpaperrandomizer import add_file_to_displayed_files
+    from configurator import Configuration
+
+
+def execute(cmd):
+    p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+    output, err = p.communicate()
+    return output.decode()
 
 
 if __name__ == '__main__':
-    print(len(sys.argv))
-    if len(sys.argv) > 1 and sys.argv[1] == 'boot':
-        time.sleep(5)
-    if len(sys.argv) > 2:
-        config_file = sys.argv[2]
-    else:
-        config_file = None
-    print(config_file)
-    files = get_not_displayed_files(config_file)
-    print(files)
-    wallpaper = random.choice(files)
-    set_background(wallpaper)
+    configuration = Configuration()
+    desktop_environment = configuration.get('desktop_environment')
+    print(desktop_environment)
+    wallpaper = random.choice(get_not_displayed_files())
+    cmd = 'grep -z DBUS_SESSION_BUS_ADDRESS /proc/$(pgrep -n %s-session)\
+/environ|cut -d= -f2-;' % (desktop_environment)
+    dsba = execute(cmd)[:-2]
+    os.environ['DBUS_SESSION_BUS_ADDRESS'] = dsba
+    selected = Gio.File.new_for_path(wallpaper)
+    settings = Gio.Settings.new('org.gnome.desktop.background')
+    settings.set_string('picture-options', 'wallpaper')
+    settings.set_string('picture-uri', selected.get_uri())
     add_file_to_displayed_files(wallpaper)

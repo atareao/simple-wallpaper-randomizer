@@ -1,8 +1,0 @@
-[Desktop Entry]
-Type=Application
-Exec=/opt/extras.ubuntu.com/simple-wallpaper-randomizer/bin/change_wallpaper.py boot
-Hidden=false
-NoDisplay=false
-X-GNOME-Autostart-enabled=true
-Name=Simple Wallpaper Randomizer
-X-GNOME-Autostart-Delay=2

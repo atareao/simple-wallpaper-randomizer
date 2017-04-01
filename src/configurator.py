@@ -3,7 +3,7 @@
 #
 # This file is part of Simple Wallpaper Randomizer
 #
-# Copyright (C) 2016 Lorenzo Carbonell
+# Copyright (C) 2012-2017 Lorenzo Carbonell
 # lorenzo.carbonell.cerezo@gmail.com
 #
 # This program is free software: you can redistribute it and/or modify
@@ -22,29 +22,12 @@
 import codecs
 import os
 import json
-import sys
-sys.path.append(
-    os.path.normpath(
-        os.path.join(
-            os.path.dirname(
-                os.path.realpath(os.path.join(os.getcwd(),
-                                 os.path.expanduser(__file__)))),
-            '..')))
-try:
-    from swr.comun import PARAMS
-    from swr.comun import CONFIG_FILE
-except Exception as e:
-    print(e)
-    exit(-1)
+import comun
 
 
 class Configuration(object):
-    def __init__(self, config_file=None):
-        self.params = PARAMS
-        if config_file is None:
-            self.config_file = CONFIG_FILE
-        else:
-            self.config_file = config_file
+    def __init__(self):
+        self.params = comun.PARAMS
         self.read()
 
     def get(self, key):
@@ -52,29 +35,29 @@ class Configuration(object):
             return self.params[key]
         except KeyError as e:
             print(e)
-            self.params[key] = PARAMS[key]
+            self.params[key] = comun.PARAMS[key]
             return self.params[key]
 
     def set(self, key, value):
         self.params[key] = value
 
     def reset(self):
-        if os.path.exists(self.config_file):
-            os.remove(self.config_file)
-        self.params = PARAMS
+        if os.path.exists(comun.CONFIG_FILE):
+            os.remove(comun.CONFIG_FILE)
+        self.params = comun.PARAMS
         self.save()
 
     def set_defaults(self):
-        self.params = PARAMS
+        self.params = comun.PARAMS
         self.save()
 
     def read(self):
         try:
-            f = codecs.open(self.config_file, 'r', 'utf-8')
+            f = codecs.open(comun.CONFIG_FILE, 'r', 'utf-8')
         except IOError as e:
             print(e)
             self.save()
-            f = codecs.open(self.config_file, 'r', 'utf-8')
+            f = codecs.open(comun.CONFIG_FILE, 'r', 'utf-8')
         try:
             self.params = json.loads(f.read())
         except ValueError as e:
@@ -83,8 +66,9 @@ class Configuration(object):
         f.close()
 
     def save(self):
-        if not os.path.exists(os.path.dirname(self.config_file)):
-            os.makedirs(os.path.dirname(self.config_file))
-        f = codecs.open(CONFIG_FILE, 'w', 'utf-8')
+        if not os.path.exists(comun.CONFIG_APP_DIR):
+            os.makedirs(comun.CONFIG_APP_DIR)
+        f = codecs.open(comun.CONFIG_FILE, 'w', 'utf-8')
+        #f.write(json.dumps(self.params,encoding ='utf-8'))
         f.write(json.dumps(self.params))
         f.close()
