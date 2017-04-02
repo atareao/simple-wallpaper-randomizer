@@ -38,6 +38,16 @@ import random
 import getpass
 import comun
 
+WALLPAPERS = ['chrome-os-wallpapers',
+              'chrome-os-wallpapers-2015',
+              'saucy-salamander-wallpaper-contest',
+              'trusty-tahr-wallpaper-contest',
+              'vivid-vervet-wallpaper-contest',
+              'wily-werewolf-wallpaper-contest',
+              'xenial-xerus-wallpaper-contest',
+              'yakkety-yak-wallpaper-contest',
+              'zesty-zapus-wallpaper-contest']
+
 
 class SimpleWallpaperRandomizerDialog(Gtk.Dialog):
     def __init__(self):
@@ -156,7 +166,7 @@ class SimpleWallpaperRandomizerDialog(Gtk.Dialog):
                       yoptions=Gtk.AttachOptions.SHRINK)
         #
         vbox2 = Gtk.VBox(spacing=5)
-        notebook.append_page_menu(vbox2, Gtk.Label(_('Wallpapers')))
+        notebook.append_page_menu(vbox2, Gtk.Label(_('Install wallpapers')))
         frame4 = Gtk.Frame()
         vbox2.pack_start(frame4, True, True, 0)
         vbox5 = Gtk.VBox(spacing=5)
@@ -167,30 +177,12 @@ class SimpleWallpaperRandomizerDialog(Gtk.Dialog):
         #
         vbox6 = Gtk.VBox(spacing=5)
         frame5.add(vbox6)
-        button1 = Gtk.Button('chrome-os-wallpapers')
-        button1.connect('clicked', self.on_button_clicked,
-                        'chrome-os-wallpapers')
-        vbox2.pack_start(button1, True, True, 0)
-        button2 = Gtk.Button(' chrome-os-wallpapers-2015')
-        button2.connect('clicked', self.on_button_clicked,
-                        'chrome-os-wallpapers-2015')
-        vbox2.pack_start(button2, True, True, 0)
-        button3 = Gtk.Button('saucy-salamander-wallpaper-contest')
-        button3.connect('clicked', self.on_button_clicked,
-                        'saucy-salamander-wallpaper-contest')
-        vbox2.pack_start(button3, True, True, 0)
-        button4 = Gtk.Button('trusty-tahr-wallpaper-contest')
-        button4.connect('clicked', self.on_button_clicked,
-                        'trusty-tahr-wallpaper-contest')
-        vbox2.pack_start(button4, True, True, 0)
-        button5 = Gtk.Button('vivid-vervet-wallpaper-contest')
-        button5.connect('clicked', self.on_button_clicked,
-                        'vivid-vervet-wallpaper-contest')
-        vbox2.pack_start(button5, True, True, 0)
-        button6 = Gtk.Button('wily-werewolf-wallpaper-contest')
-        button6.connect('clicked', self.on_button_clicked,
-                        'wily-werewolf-wallpaper-contest')
-        vbox2.pack_start(button6, True, True, 0)
+        for wallpaperset in WALLPAPERS:
+            button = Gtk.Button(wallpaperset)
+            button.connect('clicked',
+                           self.on_button_clicked,
+                           wallpaperset)
+            vbox2.pack_start(button, True, True, 0)
 
         configuration = Configuration()
         configuration.set('desktop_environment',
