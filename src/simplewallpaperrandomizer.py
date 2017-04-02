@@ -40,6 +40,7 @@ import comun
 
 WALLPAPERS = ['chrome-os-wallpapers',
               'chrome-os-wallpapers-2015',
+              'chromecast-wallpapers-2015',
               'saucy-salamander-wallpaper-contest',
               'trusty-tahr-wallpaper-contest',
               'vivid-vervet-wallpaper-contest',

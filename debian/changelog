@@ -1,3 +1,15 @@
+simple-wallpaper-randomizer (0.5.1-0extras16.04.0) xenial; urgency=medium
+
+  * Added chromecast-wallpapers-2015 a wallpapers sets
+
+ -- Lorenzo Carbonell <lorenzo.carbonell.cerezo@gmail.com>  Sun, 02 Apr 2017 18:19:42 +0200
+
+simple-wallpaper-randomizer (0.5.0-0extras16.04.0) xenial; urgency=medium
+
+  * Added more wallpapers
+
+ -- Lorenzo Carbonell <lorenzo.carbonell.cerezo@gmail.com>  Sun, 02 Apr 2017 10:44:29 +0200
+
 simple-wallpaper-randomizer (0.4.0-0extras16.04.2) xenial; urgency=medium
 
   * Using Gio to set wallpaper
