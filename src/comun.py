@@ -32,6 +32,7 @@ import sys
 import re
 import subprocess
 
+
 def is_package():
     return __file__.find('src') < 0
 
@@ -106,11 +107,9 @@ PARAMS = {'displayed_files': [],
 IMAGE_EXTENSIONS = ['.jpg', '.jpeg', '.png']
 
 if is_package():
-    ROOTDIR = '/opt/extras.ubuntu.com/simple-wallpaper-randomizer/share/'
+    ROOTDIR = '/usr/share/'
     LANGDIR = os.path.join(ROOTDIR, 'locale-langpack')
     APPDIR = os.path.join(ROOTDIR, APP)
-    ICONDIR = os.path.join(ROOTDIR, 'icons')
-    SOCIALDIR = os.path.join(ICONDIR, 'social')
     CHANGELOG = os.path.join(APPDIR, 'changelog')
 else:
     ROOTDIR = os.path.dirname(__file__)
@@ -121,8 +120,6 @@ else:
     SOCIALDIR = os.path.normpath(os.path.join(ROOTDIR, '../data/social'))
     DEBIANDIR = os.path.normpath(os.path.join(ROOTDIR, '../debian'))
     CHANGELOG = os.path.join(DEBIANDIR, 'changelog')
-
-ICON = os.path.join(ICONDIR, 'swr-icon.png')
 
 f = open(CHANGELOG, 'r')
 line = f.readline()
@@ -142,7 +139,7 @@ try:
     else:
         _ = language.ugettext
 except Exception as e:
-    #print(e)
+    # print(e)
     _ = str
 
 APPNAME = _(APPNAME)

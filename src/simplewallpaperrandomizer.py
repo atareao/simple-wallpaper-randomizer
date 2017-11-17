@@ -64,8 +64,10 @@ class SimpleWallpaperRandomizerDialog(Gtk.Dialog):
                             (Gtk.STOCK_OK, Gtk.ResponseType.ACCEPT,
                              Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL))
         self.set_position(Gtk.WindowPosition.CENTER_ALWAYS)
+        self.set_wmclass('Simple Wallpaper Randomizer',
+                         'SimpleWallpaperRandomizerDialog')
         self.set_title(comun.APPNAME)
-        self.set_icon_from_file(comun.ICON)
+        self. set_icon_name(comun.APP)
         self.set_default_size(350, 250)
 
         self.autostart = Autostart()
