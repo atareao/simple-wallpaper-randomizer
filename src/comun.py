@@ -32,7 +32,6 @@ import sys
 import re
 import subprocess
 
-
 def is_package():
     return __file__.find('src') < 0
 
@@ -101,6 +100,7 @@ APP_CONF = APP + '.conf'
 CONFIG_DIR = os.path.join(os.path.expanduser('~'), '.config')
 CONFIG_APP_DIR = os.path.join(CONFIG_DIR, APP)
 CONFIG_FILE = os.path.join(CONFIG_APP_DIR, APP_CONF)
+SELECTED_FILE = os.path.join(CONFIG_APP_DIR, 'selected_file.dat')
 PARAMS = {'displayed_files': [],
           'desktop_environment': ''}
 IMAGE_EXTENSIONS = ['.jpg', '.jpeg', '.png']
@@ -142,7 +142,7 @@ try:
     else:
         _ = language.ugettext
 except Exception as e:
-    print(e)
+    #print(e)
     _ = str
 
 APPNAME = _(APPNAME)

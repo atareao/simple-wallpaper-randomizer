@@ -1,3 +1,10 @@
+simple-wallpaper-randomizer (0.6.0-0extras17.10.0) artful; urgency=medium
+
+  * gsetting via os
+  * set wallpaper on boot via autostart
+
+ -- Lorenzo Carbonell <lorenzo.carbonell.cerezo@gmail.com>  Fri, 17 Nov 2017 07:40:44 +0100
+
 simple-wallpaper-randomizer (0.5.1-0extras16.04.0) xenial; urgency=medium
 
   * Added chromecast-wallpapers-2015 a wallpapers sets

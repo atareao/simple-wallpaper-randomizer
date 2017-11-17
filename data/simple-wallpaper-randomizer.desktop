@@ -1,12 +1,22 @@
 [Desktop Entry]
-Name = Simple Wallpaper Randomizer
-GenericName = Simple Wallpaper Randomizer
-Comment = A simple application to change wallpaper randomly
-Exec = /opt/extras.ubuntu.com/simple-wallpaper-randomizer/share/simple-wallpaper-randomizer/simplewallpaperrandomizer.py
-Icon = /opt/extras.ubuntu.com/simple-wallpaper-randomizer/share/icons/swr-icon.png
-Type = Application
-Terminal = false
-StartupNotify = true
-Encoding = UTF-8
-Categories = Utility;
-X-Ubuntu-Gettext-Domain = simple-wallpaper-randomizer
+Version=1.0
+Name=Simple Wallpaper Randomizer
+Name[es]=Fondos de pantalla al azar
+Comment=A simple application to change wallpaper randomly
+Comment[es]=Una sencilla aplicación para cambiar fondos de pantall al azar
+Keywords=Wallpaper;
+Keywors[es]=Fondo de pantalla;
+GenericName=Wallpaper
+GenericName[es]=Fondo de pantalla;
+Exec=/usr/share/simple-wallpaper-randomizer/simplewallpaperrandomizer.py
+Terminal=false
+Type=Application
+Icon=simple-wallpaper-randomizer
+Categories=GNOME;GTK;Utility;
+StartupNotify=true
+Actions=change-wallpaper;
+
+[Desktop Action change-wallpaper]
+Name=Change Wallpaper
+Name[es]=Cambia el fondo de pantalla
+Exec=/usr/share/simple-wallpaper-randomizer/change_wallpaper.py --force

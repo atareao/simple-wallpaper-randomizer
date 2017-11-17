@@ -33,7 +33,9 @@ from os import listdir
 from os.path import isfile, join
 from urllib.parse import unquote_plus
 from comun import _
+from comun import get_desktop_environment
 from configurator import Configuration
+from autostart import Autostart
 import random
 import getpass
 import comun
@@ -65,6 +67,8 @@ class SimpleWallpaperRandomizerDialog(Gtk.Dialog):
         self.set_title(comun.APPNAME)
         self.set_icon_from_file(comun.ICON)
         self.set_default_size(350, 250)
+
+        self.autostart = Autostart()
 
         vbox = Gtk.VBox(spacing=5)
         self.get_content_area().add(vbox)
@@ -266,48 +270,55 @@ class SimpleWallpaperRandomizerDialog(Gtk.Dialog):
         self.spinbutton22.set_value(hours)
         self.spinbutton23.set_value(days)
         print(minutes, hours, days)
-        if self.get_the_job_on_reboot() is None:
-            self.switch31.set_active(False)
-        else:
-            self.switch31.set_active(True)
+        self.switch31.set_active(self.autostart.get_autostart())
 
     def force_change_wallpaper(self):
         wallpaper = random.choice(get_not_displayed_files())
         settings = Gio.Settings.new('org.gnome.desktop.background')
         settings.set_string('picture-options', 'wallpaper')
         settings.set_string('picture-uri', 'file://%s' % wallpaper)
-        print(wallpaper)
         add_file_to_displayed_files(wallpaper)
 
     def save_preferences(self):
         thejob = self.get_the_job()
         if self.switch11.get_active():
             if thejob is None:
-                thejob = self.cron.new(command='export DISPLAY=:0.0 && \
-/usr/bin/python3 /opt/extras.ubuntu.com/simple-wallpaper-randomizer/bin/\
-change_wallpaper.py', user=getpass.getuser())
-                thejob.minute.every(10)
-                thejob.set_comment("cron_change_wallpaper")
-                thejob.enable()
+                PARAMS = 'export DISPLAY=:0;\
+export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/%s/bus;\
+export GSETTINGS_BACKEND=dconf'
+                EXEC = '/usr/bin/python3'
+                SCRIPT = '/usr/share/simple-wallpaper-randomizer/\
+change_wallpaper.py'
+                GSET_GNOME = 'gsettings set org.gnome.desktop.background \
+picture-uri "file://`%s %s`"'
+                # "file://`cat %s`"'
+                GSET_MATE = 'gsettings set org.mate.background \
+picture-filename "`%s %s`"'
+                params = PARAMS % os.getuid()
+                desktop_environmen = get_desktop_environment()
+                if desktop_environmen == 'gnome':
+                    gset = GSET_GNOME % (EXEC, SCRIPT)
+                elif desktop_environmen == 'mate':
+                    gset = GSET_MATE % (EXEC, SCRIPT)
+                else:
+                    gset = None
+                if gset is not None:
+                    command = '{0};{1}'.format(params, gset)
+                    thejob = self.cron.new(command=command,
+                                           user=getpass.getuser())
+                    thejob.minute.every(10)
+                    thejob.set_comment("cron_change_wallpaper")
+                    thejob.enable()
             thejob.enable(self.switch11.get_active())
             thejob.minute.every(self.spinbutton21.get_value())
             thejob.hour.every(self.spinbutton22.get_value() + 1)
             thejob.day.every(self.spinbutton23.get_value() + 1)
+            self.cron.write()
         else:
             if thejob is not None:
                 self.cron.remove(thejob)
-        if self.switch31.get_active():
-            thejob_on_reboot = self.cron.new(command='export DISPLAY=:0.0 && \
-/usr/bin/python3 /opt/extras.ubuntu.com/simple-wallpaper-randomizer/bin/\
-change_wallpaper.py', user=getpass.getuser())
-            thejob_on_reboot.set_comment("cron_change_wallpaper_on_reboot")
-            thejob_on_reboot.every_reboot()
-        else:
-            thejob_on_reboot = self.get_the_job_on_reboot()
-            if thejob_on_reboot is not None:
-                self.cron.remove(thejob_on_reboot)
+            self.autostart.set_autostart(self.switch31.get_active())
         self.cron.write()
-        print(thejob, thejob_on_reboot)
 
 
 def is_image(afile):
@@ -335,7 +346,7 @@ def get_displayed_files():
     configuration = Configuration()
     displayed_files = configuration.get('displayed_files')
     all_files = get_all_files()
-    print('%s / %s' % (len(displayed_files), len(all_files)))
+    # print('%s / %s' % (len(displayed_files), len(all_files)))
     if len(displayed_files) == len(all_files):  # all files were showed
         displayed_files = []
         configuration.set('displayed_files', displayed_files)

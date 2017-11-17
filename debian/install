@@ -1,7 +1,10 @@
-src/change_wallpaper.py /opt/extras.ubuntu.com/simple-wallpaper-randomizer/bin
-src/comun.py /opt/extras.ubuntu.com/simple-wallpaper-randomizer/share/simple-wallpaper-randomizer
-src/configurator.py /opt/extras.ubuntu.com/simple-wallpaper-randomizer/share/simple-wallpaper-randomizer
-src/simplewallpaperrandomizer.py /opt/extras.ubuntu.com/simple-wallpaper-randomizer/share/simple-wallpaper-randomizer
-data/icons/swr-icon.png /opt/extras.ubuntu.com/simple-wallpaper-randomizer/share/icons
+src/*.py /usr/bin/simple-wallpaper-randomizer
+data/16x16/*.png /usr/share/icons/hicolor/16x16/apps/
+data/24x24/*.png /usr/share/icons/hicolor/24x24/apps/
+data/36x36/*.png /usr/share/icons/hicolor/36x36/apps/
+data/48x48/*.png /usr/share/icons/hicolor/48x48/apps/
+data/64x64/*.png /usr/share/icons/hicolor/64x64/apps/
+data/96x96/*.png /usr/share/icons/hicolor/96x96/apps/
+data/128x128/*.png /usr/share/icons/hicolor/128x128/apps/
 data/simple-wallpaper-randomizer.desktop /usr/share/applications
-debian/changelog /opt/extras.ubuntu.com/simple-wallpaper-randomizer/share/simple-wallpaper-randomizer
+debian/changelog /usr/share/simple-wallpaper-randomizer
