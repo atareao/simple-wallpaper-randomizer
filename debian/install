@@ -1,4 +1,4 @@
-src/*.py /usr/bin/simple-wallpaper-randomizer
+src/*.py /usr/share/simple-wallpaper-randomizer
 data/16x16/*.png /usr/share/icons/hicolor/16x16/apps/
 data/24x24/*.png /usr/share/icons/hicolor/24x24/apps/
 data/36x36/*.png /usr/share/icons/hicolor/36x36/apps/

@@ -24,7 +24,7 @@ case "$1" in
   purge)
     for user in $(cut -d: -f1 /etc/passwd)
     do
-      crontab -u $user -l | grep -v 'NGW_EVERY_TWELVE' | crontab -u $user -
+      crontab -u $user -l | grep -v 'cron_change_wallpaper' | crontab -u $user -
       desktop_file="/home/"$user"/.config/autostart/simple-wallpaper-randomizer.desktop"
       if [ -f $desktop_file ]; then
         rm $desktop_file
@@ -39,8 +39,8 @@ case "$1" in
   remove|upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)
     for user in $(cut -d: -f1 /etc/passwd)
     do
-      crontab -u $user -l | grep -v 'NGW_EVERY_TWELVE' | crontab -u $user -
-      desktop_file="/home/"$user"/.config/autostart/national-geographic-wallpaper.desktop"
+      crontab -u $user -l | grep -v 'cron_change_wallpaper' | crontab -u $user -
+      desktop_file="/home/"$user"/.config/autostart/simple-wallpaper-randomizer.desktop"
       if [ -f $desktop_file ]; then
         rm $desktop_file
       fi
