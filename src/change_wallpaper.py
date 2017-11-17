@@ -37,10 +37,11 @@ export GSETTINGS_BACKEND=dconf'
     GSET_MATE = 'gsettings set org.mate.background picture-filename "%s"'
     if os.path.exists(filename):
         params = PARAMS % os.getuid()
-        desktop_environmen = get_desktop_environment()
-        if desktop_environmen == 'gnome':
+        desktop_environment = get_desktop_environment()
+        if desktop_environment == 'gnome' or \
+                desktop_environment == 'unity':
             gset = GSET_GNOME % filename
-        elif desktop_environmen == 'mate':
+        elif desktop_environment == 'mate':
             gset = GSET_MATE % filename
         else:
             gset = None

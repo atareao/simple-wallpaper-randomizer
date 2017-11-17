@@ -1,9 +1,9 @@
-simple-wallpaper-randomizer (0.6.0-0extras17.10.0) artful; urgency=medium
+simple-wallpaper-randomizer (0.6.0-0extras17.10.1) artful; urgency=medium
 
   * gsetting via os
   * set wallpaper on boot via autostart
 
- -- Lorenzo Carbonell <lorenzo.carbonell.cerezo@gmail.com>  Fri, 17 Nov 2017 07:40:44 +0100
+ -- Lorenzo Carbonell <lorenzo.carbonell.cerezo@gmail.com>  Fri, 17 Nov 2017 08:00:17 +0100
 
 simple-wallpaper-randomizer (0.5.1-0extras16.04.0) xenial; urgency=medium
 

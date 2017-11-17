@@ -27,7 +27,7 @@ try:
 except Exception as e:
     print(e)
     exit(-1)
-from gi.repository import Gtk, Gio
+from gi.repository import Gtk
 import os
 from os import listdir
 from os.path import isfile, join
@@ -204,22 +204,6 @@ class SimpleWallpaperRandomizerDialog(Gtk.Dialog):
         print('clicked')
         self.force_change_wallpaper()
 
-    def get_the_job_on_reboot(self):
-        iter = self.cron.find_comment('cron_change_wallpaper_on_reboot')
-        jobs = list(iter)
-        noj = len(jobs)
-        print('Number of jobs: %s' % noj)
-        if noj == 0:
-            return None
-        else:
-            for index, ajob in enumerate(jobs):
-                if index == 0:
-                    thejob = ajob
-                else:
-                    self.cron.remove(ajob)
-                    self.cron.write()
-        return thejob
-
     def get_the_job(self):
         iter = self.cron.find_comment('cron_change_wallpaper')
         jobs = list(iter)
@@ -273,11 +257,29 @@ class SimpleWallpaperRandomizerDialog(Gtk.Dialog):
         self.switch31.set_active(self.autostart.get_autostart())
 
     def force_change_wallpaper(self):
-        wallpaper = random.choice(get_not_displayed_files())
-        settings = Gio.Settings.new('org.gnome.desktop.background')
-        settings.set_string('picture-options', 'wallpaper')
-        settings.set_string('picture-uri', 'file://%s' % wallpaper)
-        add_file_to_displayed_files(wallpaper)
+        filename = random.choice(get_not_displayed_files())
+        print(filename)
+        PARAMS = 'export DISPLAY=:0;\
+export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/%s/bus;\
+export GSETTINGS_BACKEND=dconf'
+        GSET_GNOME = 'gsettings set org.gnome.desktop.background picture-uri \
+"file://%s"'
+        GSET_MATE = 'gsettings set org.mate.background picture-filename "%s"'
+        if os.path.exists(filename):
+            params = PARAMS % os.getuid()
+            desktop_environment = get_desktop_environment()
+            print(desktop_environment)
+            if desktop_environment == 'gnome' or \
+                    desktop_environment == 'unity':
+                gset = GSET_GNOME % filename
+            elif desktop_environment == 'mate':
+                gset = GSET_MATE % filename
+            else:
+                gset = None
+            if gset is not None:
+                command = '{0};{1}'.format(params, gset)
+                os.system(command)
+                add_file_to_displayed_files(filename)
 
     def save_preferences(self):
         thejob = self.get_the_job()
@@ -295,10 +297,11 @@ picture-uri "file://`%s %s`"'
                 GSET_MATE = 'gsettings set org.mate.background \
 picture-filename "`%s %s`"'
                 params = PARAMS % os.getuid()
-                desktop_environmen = get_desktop_environment()
-                if desktop_environmen == 'gnome':
+                desktop_environment = get_desktop_environment()
+                if desktop_environment == 'gnome' or \
+                        desktop_environment == 'unity':
                     gset = GSET_GNOME % (EXEC, SCRIPT)
-                elif desktop_environmen == 'mate':
+                elif desktop_environment == 'mate':
                     gset = GSET_MATE % (EXEC, SCRIPT)
                 else:
                     gset = None
