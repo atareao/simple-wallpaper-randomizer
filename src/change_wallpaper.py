@@ -35,14 +35,19 @@ export GSETTINGS_BACKEND=dconf'
     GSET_GNOME = 'gsettings set org.gnome.desktop.background picture-uri \
 "file://%s"'
     GSET_MATE = 'gsettings set org.mate.background picture-filename "%s"'
+    GSET_CINNAMON = 'gsettings set org.cinnamon.background picture-filename \
+"file://%s"'
     if os.path.exists(filename):
         params = PARAMS % os.getuid()
         desktop_environment = get_desktop_environment()
         if desktop_environment == 'gnome' or \
-                desktop_environment == 'unity':
+                desktop_environment == 'unity' or \
+                desktop_environment == 'budgie-desktop':
             gset = GSET_GNOME % filename
-        elif desktop_environment == 'mate':
+        elif desktop_environment == "mate":
             gset = GSET_MATE % filename
+        elif desktop_environment == "cinnamon":
+            gset = GSET_CINNAMON % filename
         else:
             gset = None
         if gset is not None:
