@@ -39,6 +39,8 @@ from autostart import Autostart
 import random
 import getpass
 import comun
+import shutil
+
 
 WALLPAPERS = ['chrome-os-wallpapers',
               'chrome-os-wallpapers-2015',
@@ -260,27 +262,31 @@ class SimpleWallpaperRandomizerDialog(Gtk.Dialog):
 
     def force_change_wallpaper(self):
         filename = random.choice(get_not_displayed_files())
+        shutil.copyfile(filename, comun.SELECTED_WALLPAPER)
         print(filename)
         PARAMS = 'export DISPLAY=:0;\
-export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/%s/bus;\
 export GSETTINGS_BACKEND=dconf'
         GSET_GNOME = 'gsettings set org.gnome.desktop.background picture-uri \
 "file://%s"'
         GSET_MATE = 'gsettings set org.mate.background picture-filename "%s"'
-        GSET_CINNAMON = 'gsettings set org.cinnamon.background \
-picture-filename "file://%s"'
-        if os.path.exists(filename):
-            params = PARAMS % os.getuid()
+        GSET_CINNAMON = 'gsettings set org.cinnamon.desktop.background \
+picture-uri "file://%s"'
+        GSET_XFCE = 'xfconf-query -c xfce4-desktop -p \
+/backdrop/screen0/monitorDisplayPort-1/workspace0/last-image --set "%s"'
+        if os.path.exists(comun.SELECTED_WALLPAPER):
+            params = PARAMS  # % os.getuid()
             desktop_environment = get_desktop_environment()
             print(desktop_environment)
             if desktop_environment == 'gnome' or \
                     desktop_environment == 'unity' or \
                     desktop_environment == 'budgie-desktop':
-                gset = GSET_GNOME % filename
-            elif desktop_environment == "mate":
-                gset = GSET_MATE % filename
-            elif desktop_environment == "cinnamon":
-                gset = GSET_CINNAMON % filename
+                gset = GSET_GNOME % comun.SELECTED_WALLPAPER
+            elif desktop_environment == 'mate':
+                gset = GSET_MATE % comun.SELECTED_WALLPAPER
+            elif desktop_environment == 'cinnamon':
+                gset = GSET_CINNAMON % comun.SELECTED_WALLPAPER
+            elif desktop_environment == 'xfce4':
+                gset = GSET_XFCE % comun.SELECTED_WALLPAPER
             else:
                 gset = None
             if gset is not None:
@@ -300,11 +306,13 @@ export GSETTINGS_BACKEND=dconf'
 change_wallpaper.py'
                 GSET_GNOME = 'gsettings set org.gnome.desktop.background \
 picture-uri "file://`%s %s`"'
-                # "file://`cat %s`"'
+                # "filcde://`cat %s`"'
                 GSET_MATE = 'gsettings set org.mate.background \
 picture-filename "`%s %s`"'
-                GSET_CINNAMON = 'gsettings set org.cinnamon.background \
-picture-filename "file://`%s %s`"'
+                GSET_CINNAMON = 'gsettings set org.cinnamon.desktop.background \
+picture-uri "file://`%s %s`"'
+                GSET_XFCE = 'xfconf-query -c xfce4-desktop -p \
+/backdrop/screen0/monitorDisplayPort-1/workspace0/last-image --set "`%s %s`"'
                 params = PARAMS % os.getuid()
                 desktop_environment = get_desktop_environment()
                 if desktop_environment == 'gnome' or \
@@ -315,6 +323,8 @@ picture-filename "file://`%s %s`"'
                     gset = GSET_MATE % (EXEC, SCRIPT)
                 elif desktop_environment == "cinnamon":
                     gset = GSET_CINNAMON % (EXEC, SCRIPT)
+                elif desktop_environment == 'xfce4':
+                    gset = GSET_XFCE % (EXEC, SCRIPT)
                 else:
                     gset = None
                 if gset is not None:
@@ -353,7 +363,8 @@ def get_all_files():
 def get_not_displayed_files():
     all_files = get_all_files()
     for displayed_file in get_displayed_files():
-        all_files.remove(displayed_file)
+        if displayed_file in all_files:
+            all_files.remove(displayed_file)
     return all_files
 
 

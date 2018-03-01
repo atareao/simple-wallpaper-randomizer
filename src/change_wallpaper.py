@@ -23,31 +23,38 @@
 import random
 import sys
 import os
+import comun
 from comun import get_desktop_environment
 from simplewallpaperrandomizer import get_not_displayed_files
 from simplewallpaperrandomizer import add_file_to_displayed_files
+import shutil
 
 
 def change_gesettings(filename):
+    shutil.copyfile(filename, comun.SELECTED_WALLPAPER)
     PARAMS = 'export DISPLAY=:0;\
 export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/%s/bus;\
 export GSETTINGS_BACKEND=dconf'
     GSET_GNOME = 'gsettings set org.gnome.desktop.background picture-uri \
 "file://%s"'
     GSET_MATE = 'gsettings set org.mate.background picture-filename "%s"'
-    GSET_CINNAMON = 'gsettings set org.cinnamon.background picture-filename \
+    GSET_CINNAMON = 'gsettings set org.cinnamon.desktop.background picture-uri \
 "file://%s"'
-    if os.path.exists(filename):
+    GSET_XFCE = 'xfconf-query -c xfce4-desktop -p \
+/backdrop/screen0/monitorDisplayPort-1/workspace0/last-image --set "%s"'
+    if os.path.exists(comun.SELECTED_WALLPAPER):
         params = PARAMS % os.getuid()
         desktop_environment = get_desktop_environment()
         if desktop_environment == 'gnome' or \
                 desktop_environment == 'unity' or \
                 desktop_environment == 'budgie-desktop':
-            gset = GSET_GNOME % filename
-        elif desktop_environment == "mate":
-            gset = GSET_MATE % filename
-        elif desktop_environment == "cinnamon":
-            gset = GSET_CINNAMON % filename
+            gset = GSET_GNOME % comun.SELECTED_WALLPAPER
+        elif desktop_environment == 'mate':
+            gset = GSET_MATE % comun.SELECTED_WALLPAPER
+        elif desktop_environment == 'cinnamon':
+            gset = GSET_CINNAMON % comun.SELECTED_WALLPAPER
+        elif desktop_environment == 'xfce4':
+            gset = GSET_XFCE % comun.SELECTED_WALLPAPER
         else:
             gset = None
         if gset is not None:
@@ -62,4 +69,5 @@ if __name__ == '__main__':
         change_gesettings(filename)
     else:
         add_file_to_displayed_files(filename)
-        print(filename)
+        shutil.copyfile(filename, comun.SELECTED_WALLPAPER)
+        print(comun.SELECTED_WALLPAPER)

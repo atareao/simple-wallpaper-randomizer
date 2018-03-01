@@ -1,8 +1,8 @@
-simple-wallpaper-randomizer (0.6.1-0extras17.10.0) artful; urgency=medium
+simple-wallpaper-randomizer (0.6.1-0extras17.10.6) xenial; urgency=medium
 
   * Added support for Budgie and Cinnamon
 
- -- Lorenzo Carbonell <lorenzo.carbonell.cerezo@gmail.com>  Mon, 20 Nov 2017 17:56:00 +0100
+ -- Lorenzo Carbonell <lorenzo.carbonell.cerezo@gmail.com>  Thu, 01 Mar 2018 12:52:26 +0100
 
 simple-wallpaper-randomizer (0.6.0-0extras17.10.6) artful; urgency=medium
 

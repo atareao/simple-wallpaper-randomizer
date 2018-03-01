@@ -101,6 +101,7 @@ APP_CONF = APP + '.conf'
 CONFIG_DIR = os.path.join(os.path.expanduser('~'), '.config')
 CONFIG_APP_DIR = os.path.join(CONFIG_DIR, APP)
 CONFIG_FILE = os.path.join(CONFIG_APP_DIR, APP_CONF)
+SELECTED_WALLPAPER = os.path.join(CONFIG_APP_DIR, 'wallpaper.jpg')
 SELECTED_FILE = os.path.join(CONFIG_APP_DIR, 'selected_file.dat')
 PARAMS = {'displayed_files': [],
           'desktop_environment': ''}

@@ -14,9 +14,9 @@ Type=Application
 Icon=simple-wallpaper-randomizer
 Categories=GNOME;GTK;Utility;
 StartupNotify=true
-Actions=change-wallpaper;
+Actions=Change;
 
-[Desktop Action change-wallpaper]
+[Desktop Action Change]
 Name=Change Wallpaper
 Name[es]=Cambia el fondo de pantalla
 Exec=/usr/share/simple-wallpaper-randomizer/change_wallpaper.py --force
