@@ -1,0 +1,10 @@
+christmas-wallpapers
+chromecast-wallpapers
+chrome-os-wallpapers
+halloween-wallpapers
+t.t
+ubuntu-contest-wallpapers
+wallpapers-by-linux-pictures
+wallpapers-by-sylvia-ritter
+wallpapers-by-vincent-van-gogh
+winter-wallpapers
