@@ -1,3 +1,11 @@
+simple-wallpaper-randomizer (0.7.0-0extras19.10.0) eoan; urgency=medium
+
+  * Add images for repositories.
+  * Updat reposirories.
+  * Clean repositories
+
+ -- Lorenzo Carbonell <lorenzo.carbonell.cerezo@gmail.com>  Sat, 21 Dec 2019 12:23:51 +0100
+
 simple-wallpaper-randomizer (0.6.1-0extras17.10.6) xenial; urgency=medium
 
   * Added support for Budgie and Cinnamon

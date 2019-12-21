@@ -6,5 +6,6 @@ data/48x48/*.png /usr/share/icons/hicolor/48x48/apps/
 data/64x64/*.png /usr/share/icons/hicolor/64x64/apps/
 data/96x96/*.png /usr/share/icons/hicolor/96x96/apps/
 data/128x128/*.png /usr/share/icons/hicolor/128x128/apps/
+data/samples /usr/share/simple-wallpaper-randomizer
 data/simple-wallpaper-randomizer.desktop /usr/share/applications
 debian/changelog /usr/share/simple-wallpaper-randomizer

@@ -1,21 +1,21 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-#
+
 # This file is part of Simple Wallpaper Randomizer
-#
+
 # Copyright (C) 2012-2017 Lorenzo Carbonell
 # lorenzo.carbonell.cerezo@gmail.com
-#
+
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-#
+
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-#
+
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -42,156 +42,187 @@ import comun
 import shutil
 
 
-WALLPAPERS = ['chrome-os-wallpapers',
-              'chrome-os-wallpapers-2015',
-              'chromecast-wallpapers-2015',
-              'saucy-salamander-wallpaper-contest',
-              'trusty-tahr-wallpaper-contest',
-              'vivid-vervet-wallpaper-contest',
-              'wily-werewolf-wallpaper-contest',
-              'xenial-xerus-wallpaper-contest',
-              'yakkety-yak-wallpaper-contest',
-              'zesty-zapus-wallpaper-contest']
+WALLPAPERS = ['christmas-wallpapers',
+              'chromecast-wallpapers',
+              'chrome-os-wallpapers',
+              'halloween-wallpapers',
+              'ubuntu-contest-wallpapers',
+              'wallpapers-by-linux-pictures',
+              'wallpapers-by-sylvia-ritter',
+              'wallpapers-by-vincent-van-gogh',
+              'winter-wallpapers']
+
+
+def marginize(widget, margin=5):
+    widget.set_margin_top(margin)
+    widget.set_margin_bottom(margin)
+    widget.set_margin_start(margin)
+    widget.set_margin_end(margin)
 
 
 class SimpleWallpaperRandomizerDialog(Gtk.Dialog):
     def __init__(self):
         self.cron = CronTab(user=True)
-        # self.cron = CronTab()
         Gtk.Dialog.__init__(self,
                             _('Simple Wallpaper Randomizer'),
-                            None,
-                            Gtk.DialogFlags.MODAL |
-                            Gtk.DialogFlags.DESTROY_WITH_PARENT,
-                            (Gtk.STOCK_OK, Gtk.ResponseType.ACCEPT,
-                             Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL))
+                            None)
+        self.set_modal(True)
+        self.set_destroy_with_parent(True)
+        self.add_button(Gtk.STOCK_OK, Gtk.ResponseType.ACCEPT)
+        self.add_button(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL)
         self.set_position(Gtk.WindowPosition.CENTER_ALWAYS)
+        '''
         self.set_wmclass('Simple Wallpaper Randomizer',
                          'SimpleWallpaperRandomizerDialog')
+        '''
         self.set_title(comun.APPNAME)
         self. set_icon_name(comun.APP)
         self.set_default_size(350, 250)
 
         self.autostart = Autostart()
 
-        vbox = Gtk.VBox(spacing=5)
+        vbox = Gtk.Box.new(Gtk.Orientation.VERTICAL, 5)
         self.get_content_area().add(vbox)
 
         notebook = Gtk.Notebook.new()
         vbox.pack_start(notebook, True, True, 0)
 
-        vbox0 = Gtk.VBox(spacing=5)
-        notebook.append_page_menu(vbox0, Gtk.Label(_('Preferences')))
-        frame0 = Gtk.Frame()
-        vbox0.pack_start(frame0, True, True, 0)
-        vbox1 = Gtk.VBox(spacing=5)
-        frame0.add(vbox1)
-        #
+        vbox_1 = Gtk.Box.new(Gtk.Orientation.VERTICAL, 5)
+        notebook.append_page_menu(vbox_1, Gtk.Label.new(_('Preferences')))
+
+        vbox0 = Gtk.Box.new(Gtk.Orientation.HORIZONTAL, 5)
+        vbox_1.pack_start(vbox0, True, False, 0)
+
+        frame_1 = Gtk.Frame()
+        vbox0.pack_start(frame_1, True, False, 0)
+
+        vbox1 = Gtk.Box.new(Gtk.Orientation.VERTICAL, 5)
+        frame_1.add(vbox1)
+
         frame1 = Gtk.Frame()
-        vbox1.pack_start(frame1, True, True, 0)
-        #
-        table1 = Gtk.Table(rows=1, columns=3, homogeneous=True)
+        marginize(frame1)
+        vbox1.pack_start(frame1, False, True, 0)
+
+        vboxtable1 = Gtk.Box.new(Gtk.Orientation.HORIZONTAL, 5)
+        frame1.add(vboxtable1)
+
+        table1 = Gtk.Grid.new()
         table1.set_border_width(5)
-        table1.set_col_spacings(5)
-        table1.set_row_spacings(5)
-        frame1.add(table1)
-        #
+        vboxtable1.pack_start(table1, True, False, 0)
+
         button1 = Gtk.Button.new_with_label(_('Change it now?'))
+        marginize(button1)
         button1.connect('clicked', self.on_button1_clicked)
-        table1.attach(button1, 1, 2, 0, 1,
-                      xoptions=Gtk.AttachOptions.FILL,
-                      yoptions=Gtk.AttachOptions.SHRINK)
-        #
+        table1.attach(button1, 0, 0, 1, 1)
+
         frame2 = Gtk.Frame()
-        vbox1.pack_start(frame2, True, True, 0)
-        #
-        table2 = Gtk.Table(rows=4, columns=2, homogeneous=False)
+        marginize(frame2)
+        vbox1.pack_start(frame2, False, True, 0)
+
+        vboxtable2 = Gtk.Box.new(Gtk.Orientation.HORIZONTAL, 5)
+        frame2.add(vboxtable2)
+
+        table2 = Gtk.Grid.new()
         table2.set_border_width(5)
-        table2.set_col_spacings(5)
-        table2.set_row_spacings(5)
-        frame2.add(table2)
-        #
-        label11 = Gtk.Label(_('Switch on time?') + ':')
-        label11.set_alignment(0, .5)
-        table2.attach(label11, 0, 1, 0, 1,
-                      xoptions=Gtk.AttachOptions.FILL,
-                      yoptions=Gtk.AttachOptions.SHRINK)
+        vboxtable2.pack_start(table2, True, False, 0)
+
+        label11 = Gtk.Label.new(_('Switch on time?') + ':')
+        marginize(label11)
+        label11.set_xalign(0)
+        table2.attach(label11, 0, 0, 1, 1)
+
+        vboxs11 = Gtk.Box.new(Gtk.Orientation.HORIZONTAL, 5)
+        table2.attach(vboxs11, 1, 0, 1, 1)
         self.switch11 = Gtk.Switch()
-        table2.attach(self.switch11, 1, 2, 0, 1,
-                      xoptions=Gtk.AttachOptions.FILL,
-                      yoptions=Gtk.AttachOptions.SHRINK)
-        label21 = Gtk.Label(_('Minutes between changes') + ':')
-        label21.set_alignment(0, .5)
-        table2.attach(label21, 0, 1, 1, 2,
-                      xoptions=Gtk.AttachOptions.FILL,
-                      yoptions=Gtk.AttachOptions.SHRINK)
-        adjustment21 = Gtk.Adjustment(1, 1, 59, 1, 10, 0)
+        vboxs11.pack_start(self.switch11, False, False, 0)
+
+        label21 = Gtk.Label.new(_('Minutes between changes') + ':')
+        marginize(label21)
+        label21.set_xalign(0)
+        table2.attach(label21, 0, 1, 1, 1)
+        adjustment21 = Gtk.Adjustment.new(1, 1, 59, 1, 10, 0)
         self.spinbutton21 = Gtk.SpinButton()
+        marginize(self.spinbutton21)
         self.spinbutton21.set_adjustment(adjustment21)
-        table2.attach(self.spinbutton21, 1, 2, 1, 2,
-                      xoptions=Gtk.AttachOptions.FILL,
-                      yoptions=Gtk.AttachOptions.SHRINK)
-        label22 = Gtk.Label(_('Hours between changes') + ':')
-        label22.set_alignment(0, .5)
-        table2.attach(label22, 0, 1, 2, 3,
-                      xoptions=Gtk.AttachOptions.FILL,
-                      yoptions=Gtk.AttachOptions.SHRINK)
-        adjustment22 = Gtk.Adjustment(0, 0, 24, 1, 10, 0)
+        table2.attach(self.spinbutton21, 1, 1, 1, 1)
+        label22 = Gtk.Label.new(_('Hours between changes') + ':')
+        marginize(label22)
+        label22.set_xalign(0)
+        table2.attach(label22, 0, 2, 1, 1)
+        adjustment22 = Gtk.Adjustment.new(0, 0, 24, 1, 10, 0)
         self.spinbutton22 = Gtk.SpinButton()
+        marginize(self.spinbutton22)
         self.spinbutton22.set_adjustment(adjustment22)
-        table2.attach(self.spinbutton22, 1, 2, 2, 3,
-                      xoptions=Gtk.AttachOptions.FILL,
-                      yoptions=Gtk.AttachOptions.SHRINK)
-        label23 = Gtk.Label(_('Days between changes') + ':')
-        label23.set_alignment(0, .5)
-        table2.attach(label23, 0, 1, 3, 4,
-                      xoptions=Gtk.AttachOptions.FILL,
-                      yoptions=Gtk.AttachOptions.SHRINK)
-        adjustment23 = Gtk.Adjustment(0, 0, 365, 1, 10, 0)
+        table2.attach(self.spinbutton22, 1, 2, 1, 1)
+        label23 = Gtk.Label.new(_('Days between changes') + ':')
+        marginize(label23)
+        label23.set_xalign(0)
+        table2.attach(label23, 0, 3, 1, 1)
+        adjustment23 = Gtk.Adjustment.new(0, 0, 365, 1, 10, 0)
         self.spinbutton23 = Gtk.SpinButton()
+        marginize(self.spinbutton23)
         self.spinbutton23.set_adjustment(adjustment23)
-        table2.attach(self.spinbutton23, 1, 2, 3, 4,
-                      xoptions=Gtk.AttachOptions.FILL,
-                      yoptions=Gtk.AttachOptions.SHRINK)
-        #
+        table2.attach(self.spinbutton23, 1, 3, 1, 1)
+
         frame3 = Gtk.Frame()
-        vbox1.pack_start(frame3, True, True, 0)
-        #
-        table3 = Gtk.Table(rows=1, columns=2, homogeneous=False)
+        marginize(frame3)
+        vbox1.pack_start(frame3, False, True, 0)
+
+        vboxtable3 = Gtk.Box.new(Gtk.Orientation.HORIZONTAL, 5)
+        frame3.add(vboxtable3)
+
+        table3 = Gtk.Grid.new()
         table3.set_border_width(5)
-        table3.set_col_spacings(5)
-        table3.set_row_spacings(5)
-        frame3.add(table3)
-        #
-        #
-        label31 = Gtk.Label(_('Switch on boot?') + ':')
-        label31.set_alignment(0, .5)
-        table3.attach(label31, 0, 1, 0, 1,
-                      xoptions=Gtk.AttachOptions.FILL,
-                      yoptions=Gtk.AttachOptions.SHRINK)
+        vboxtable3.pack_start(table3, True, False, 0)
+
+        label31 = Gtk.Label.new(_('Switch on boot?') + ':')
+        label31.set_xalign(0)
+        table3.attach(label31, 0, 0, 1, 1)
+
+        vboxs31 = Gtk.Box.new(Gtk.Orientation.HORIZONTAL, 5)
+        table3.attach(vboxs31, 1, 0, 1, 1)
         self.switch31 = Gtk.Switch()
-        table3.attach(self.switch31, 1, 2, 0, 1,
-                      xoptions=Gtk.AttachOptions.FILL,
-                      yoptions=Gtk.AttachOptions.SHRINK)
-        #
-        vbox2 = Gtk.VBox(spacing=5)
-        notebook.append_page_menu(vbox2, Gtk.Label(_('Install wallpapers')))
+        marginize(self.switch31)
+        vboxs31.pack_start(self.switch31, False, False, 0)
+
+        vbox2 = Gtk.Box.new(Gtk.Orientation.VERTICAL, 5)
+        notebook.append_page_menu(vbox2,
+                                  Gtk.Label.new(_('Install wallpapers')))
         frame4 = Gtk.Frame()
         vbox2.pack_start(frame4, True, True, 0)
-        vbox5 = Gtk.VBox(spacing=5)
+        vbox5 = Gtk.Box.new(Gtk.Orientation.VERTICAL, 5)
         frame4.add(vbox5)
-        #
+
         frame5 = Gtk.Frame()
         vbox5.pack_start(frame5, True, True, 0)
-        #
-        vbox6 = Gtk.VBox(spacing=5)
-        frame5.add(vbox6)
-        for wallpaperset in WALLPAPERS:
-            button = Gtk.Button(wallpaperset)
+
+        tablew = Gtk.Grid.new()
+        for index, wallpaperset in enumerate(WALLPAPERS):
+            vboxt = Gtk.Box.new(Gtk.Orientation.VERTICAL, 5)
+            marginize(vboxt)
+            vboxth = Gtk.Box.new(Gtk.Orientation.HORIZONTAL, 5)
+            marginize(vboxth)
+            for i in range(1, 4):
+                afile = os.path.join(
+                    comun.SAMPLES_DIR,
+                    '{}/example-{}.jpg'.format(wallpaperset, i))
+                if os.path.exists(afile):
+                    image = Gtk.Image.new_from_file(afile)
+                    vboxth.pack_start(image, True, True, 0)
+            vboxt.pack_start(vboxth, True, True, 0)
+
+            button = Gtk.Button.new_with_label(wallpaperset)
+            marginize(button)
             button.connect('clicked',
                            self.on_button_clicked,
                            wallpaperset)
-            vbox2.pack_start(button, True, True, 0)
+            vboxt.pack_start(button, True, True, 0)
+            print(index)
+            left = index if index < 5 else index - 5
+            top = 0 if index < 5 else 1
+            tablew.attach(vboxt, top, left, 1, 1)
+        vbox2.pack_start(tablew, True, True, 0)
+        marginize(vbox2)
 
         configuration = Configuration()
         configuration.set('desktop_environment',
@@ -309,8 +340,8 @@ picture-uri "file://`%s %s`"'
                 # "filcde://`cat %s`"'
                 GSET_MATE = 'gsettings set org.mate.background \
 picture-filename "`%s %s`"'
-                GSET_CINNAMON = 'gsettings set org.cinnamon.desktop.background \
-picture-uri "file://`%s %s`"'
+                GSET_CINNAMON = 'gsettings set \
+org.cinnamon.desktop.background picture-uri "file://`%s %s`"'
                 GSET_XFCE = 'xfconf-query -c xfce4-desktop -p \
 /backdrop/screen0/monitorDisplayPort-1/workspace0/last-image --set "`%s %s`"'
                 params = PARAMS % os.getuid()

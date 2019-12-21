@@ -111,11 +111,13 @@ if is_package():
     ROOTDIR = '/usr/share/'
     LANGDIR = os.path.join(ROOTDIR, 'locale-langpack')
     APPDIR = os.path.join(ROOTDIR, APP)
+    SAMPLES_DIR = os.path.join(APPDIR, 'samples')
     CHANGELOG = os.path.join(APPDIR, 'changelog')
 else:
     ROOTDIR = os.path.dirname(__file__)
     LANGDIR = os.path.normpath(os.path.join(ROOTDIR, '../template1'))
     APPDIR = ROOTDIR
+    SAMPLES_DIR = os.path.normpath(os.path.join(ROOTDIR, '../data/samples'))
     DATADIR = os.path.normpath(os.path.join(ROOTDIR, '../data'))
     ICONDIR = os.path.normpath(os.path.join(ROOTDIR, '../data/icons'))
     SOCIALDIR = os.path.normpath(os.path.join(ROOTDIR, '../data/social'))
