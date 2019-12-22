@@ -1,11 +1,11 @@
 # Simple Wallpaper Randomizer
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
-
 ![Licencia MIT](https://img.shields.io/badge/Licencia-MIT-green)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/b3e704c3f150404582cd23b9fcb4be32)](https://www.codacy.com/manual/atareao/simple-wallpaper-randomizer?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=atareao/simple-wallpaper-randomizer&amp;utm_campaign=Badge_Grade)
 [![CodeFactor](https://www.codefactor.io/repository/github/atareao/simple-wallpaper-randomizer/badge/master)](https://www.codefactor.io/repository/github/atareao/simple-wallpaper-randomizer/overview/master)
+
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 
 [![Twitter: atareao](https://img.shields.io/twitter/follow/atareao.svg?style=social)](https://twitter.com/atareao)
@@ -79,10 +79,6 @@ Thanks to the following people who have contributed to this project:
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
 <!-- ALL-CONTRIBUTORS-LIST:END -->
-
-* [@atareao](https://github.com/atareao)
-
-You might want to consider using something like the [All Contributors](https://github.com/all-contributors/all-contributors) specification and its [emoji key](https://allcontributors.org/docs/en/emoji-key).
 
 ## Contact
 
