@@ -1,0 +1,24 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "atareao",
+      "name": "Lorenzo Carbonell",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/298055?v=4",
+      "profile": "https://www.atareao.es",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "simple-wallpaper-randomizer",
+  "projectOwner": "atareao",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
