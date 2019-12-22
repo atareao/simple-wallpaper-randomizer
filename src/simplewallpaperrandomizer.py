@@ -385,10 +385,21 @@ def is_image(afile):
     return False
 
 
+def getListOfFiles(dirName):
+    listOfFile = os.listdir(dirName)
+    allFiles = list()
+    for entry in listOfFile:
+        fullPath = os.path.join(dirName, entry)
+        if os.path.isdir(fullPath):
+            allFiles = allFiles + getListOfFiles(fullPath)
+        else:
+            allFiles.append(unquote_plus(fullPath))
+    return allFiles
+
+
 def get_all_files():
     mypath = '/usr/share/backgrounds'
-    return [unquote_plus(join(mypath, f)) for f in listdir(mypath)
-            if is_image(join(mypath, f))]
+    return getListOfFiles(mypath)
 
 
 def get_not_displayed_files():
