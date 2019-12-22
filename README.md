@@ -1,4 +1,7 @@
 # Simple Wallpaper Randomizer
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ![Licencia MIT](https://img.shields.io/badge/Licencia-MIT-green)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/b3e704c3f150404582cd23b9fcb4be32)](https://www.codacy.com/manual/atareao/simple-wallpaper-randomizer?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=atareao/simple-wallpaper-randomizer&amp;utm_campaign=Badge_Grade)
@@ -64,6 +67,18 @@ Alternatively see the GitHub documentation on [creating a pull request](https://
 ## Contributors
 
 Thanks to the following people who have contributed to this project:
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://www.atareao.es"><img src="https://avatars3.githubusercontent.com/u/298055?v=4" width="100px;" alt=""/><br /><sub><b>Lorenzo Carbonell</b></sub></a><br /><a href="https://github.com/atareao/simple-wallpaper-randomizer/commits?author=atareao" title="Code">💻</a></td>
+  </tr>
+</table>
+
+<!-- markdownlint-enable -->
+<!-- prettier-ignore-end -->
+<!-- ALL-CONTRIBUTORS-LIST:END -->
 
 * [@atareao](https://github.com/atareao)
 
