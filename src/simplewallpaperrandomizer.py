@@ -396,7 +396,7 @@ def getListOfFiles(dirName):
         if os.path.isdir(fullPath):
             allFiles = allFiles + getListOfFiles(fullPath)
         else:
-            allFiles.append(unquote_plus(fullPath))
+            allFiles.append(fullPath)
     return allFiles
 
 
